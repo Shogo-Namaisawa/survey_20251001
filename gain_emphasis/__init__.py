@@ -31,7 +31,7 @@ class Player(BasePlayer):
     q_age = models.IntegerField(
         initial=None,
         verbose_name='あなたの年齢を教えてください。',
-        choices=range(0, 125)
+        choices=range(0, 80)
     )
 
     q_gain_focus = models.CharField(
