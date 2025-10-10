@@ -60,27 +60,48 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect
     )
 
+    # BigFive質問項目
+    
+    # 陰謀論信奉尺度(ConspiracyPage)
+
+    # 
 
 # PAGES
 class StartPage(Page):
     """アンケート開始ページ"""
     pass
 
-
-class HonestyPage(Page):
-    """誠実性確認ページ"""
-    pass
+# basic.pyではナッジを提示しない。
+#  class HonestyPage(Page):
+#     """ナッジ提示ページ"""
+#     pass
 
 
 class DemographicPage(Page):
     """デモグラフィック情報収集ページ"""
-    form_model = 'player'
-    form_fields = ['q_gender', 'q_age', 'q_area', 'q_education', 'q_device']
+    pass
 
+# basic.pyではナッジを提示しない。
+#  class HonestyPage(Page):
+#     """ナッジ提示ページ"""
+#     pass
+
+
+class BigFivePage(Page):
+    """BigFive心理調査ページ"""
+    pass
+
+class ConspiracyPage(Page):
+    """陰謀論信奉尺度調査ページ"""
+    pass
+
+class CrtPage(Page):
+    """認知反射テスト調査ページ"""
+    pass
 
 class Results(Page):
     """完了ページ"""
     pass
 
 
-page_sequence = [StartPage, HonestyPage, DemographicPage, Results]
+page_sequence = [StartPage, DemographicPage, BigFivePage, ConspiracyPage, CrtPage, Results]
