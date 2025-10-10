@@ -8,13 +8,66 @@
             <h2><strong>以下の設問で最も当てはまる項目を選択してください</strong></h2>
         </div>
         <div class="card-body">
+            <div class="alert alert-info mb-4 text-center">
+                <i class="fas fa-info-circle"></i>
+                さまざまな重要な問題に関する「真実」全てを国民一般が知らされているかどうか、についてしばしば<br>
+                論争になります。この小調査は、これらの話題に関するあなたの信念を測定することを目的としています。<br>
+                あなたが、それぞれの文章をどの程度正しいと信じるかを、以下のスケールに従って示してください。
+            </div>
+            
             <div class="row">
                 <div class="col-md-10 offset-md-1">
-                    
-                    
-                    {{ formfields }}
-                    
-                    
+                    <div>
+                        {% formfield player.inboron1 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron2 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron3 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron4 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron5 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron6 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron7 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron8 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron9 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron10 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron11 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron12 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboronIMC %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron13 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron14 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron15 %}
+                    </div>
+                    <div>
+                        {% formfield player.inboron16 %}
+                    </div>
                 </div>
             </div>
             
@@ -26,18 +79,19 @@
 </div>
 
 <style>
+/* カードコンテナ - 陰謀論尺度質問紙のメインエリア */
 .card {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* ヘッダー部分 - 質問紙のタイトル表示エリア */
 .card-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     color: white;
     border-radius: 0.375rem 0.375rem 0 0 !important;
 }
 
-
-
+/* 送信ボタン - 回答完了用のアクションボタン */
 .btn-primary {
     padding: 0.875rem 3rem;
     font-size: 1.1rem;
@@ -48,12 +102,23 @@
     transition: transform 0.2s;
 }
 
+/* ボタンインタラクション - ユーザーフィードバック */
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
+/* 説明ボックス - 質問紙の説明文コンテナ */
+.alert {
+    border-radius: 0.5rem;
+    border: none;
+}
 
+/* 情報表示 - 回答指示の視覚的強調 */
+.alert-info {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
 
 </style>
 {{ endblock }}
