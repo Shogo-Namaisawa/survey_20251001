@@ -61,10 +61,165 @@ class Player(BasePlayer):
     )
 
     # BigFive質問項目
-    
+    big5_1 =  models.IntegerField(initial=None,
+                                    choices=[
+                                        [1, '1：全く違うと思う'],
+                                        [2, '2：おおよそ違うと思う'],
+                                        [3, '3：少し違うと思う'],
+                                        [4, '4：どちらでもない'],
+                                        [5, '5：少しそう思う'],
+                                        [6, '6：まあまあそう思う'],
+                                        [7, '7：強くそう思う'],
+                                        ],
+                                verbose_name='1.活発で，外向的だと思う',
+                                widget=widgets.RadioSelect()
+                                )
+
+    big5_2 =  models.IntegerField(initial=None,
+                                    choices=[
+                                        [1, '1：全く違うと思う'],
+                                        [2, '2：おおよそ違うと思う'],
+                                        [3, '3：少し違うと思う'],
+                                        [4, '4：どちらでもない'],
+                                        [5, '5：少しそう思う'],
+                                        [6, '6：まあまあそう思う'],
+                                        [7, '7：強くそう思う'],
+                                        ],
+                                verbose_name='2.他人に不満をもち，もめごとを起こしやすいと思う',
+                                widget=widgets.RadioSelect()
+                                )
+
+
+    big5_3 =  models.IntegerField(initial=None,
+                                    choices=[
+                                        [1, '1：全く違うと思う'],
+                                        [2, '2：おおよそ違うと思う'],
+                                        [3, '3：少し違うと思う'],
+                                        [4, '4：どちらでもない'],
+                                        [5, '5：少しそう思う'],
+                                        [6, '6：まあまあそう思う'],
+                                        [7, '7：強くそう思う'],
+                                        ],
+                                verbose_name='3.しっかりしていて，自分に厳しいと思う',
+                                widget=widgets.RadioSelect()
+                                )
+
+
+    big5_4 =  models.IntegerField(initial=None,
+                                    choices=[
+                                        [1, '1：全く違うと思う'],
+                                        [2, '2：おおよそ違うと思う'],
+                                        [3, '3：少し違うと思う'],
+                                        [4, '4：どちらでもない'],
+                                        [5, '5：少しそう思う'],
+                                        [6, '6：まあまあそう思う'],
+                                        [7, '7：強くそう思う'],
+                                        ],
+                                verbose_name='4.心配性で，うろたえやすいと思う',
+                                widget=widgets.RadioSelect()
+                                )
+
+
+    big5_5 =  models.IntegerField(initial=None,
+                                    choices=[
+                                        [1, '1：全く違うと思う'],
+                                        [2, '2：おおよそ違うと思う'],
+                                        [3, '3：少し違うと思う'],
+                                        [4, '4：どちらでもない'],
+                                        [5, '5：少しそう思う'],
+                                        [6, '6：まあまあそう思う'],
+                                        [7, '7：強くそう思う'],
+                                        ],
+                                verbose_name='5.新しいことが好きで，変わった考えをもつと思う',
+                                widget=widgets.RadioSelect()
+                                )
+
+
+    big5_6 =  models.IntegerField(initial=None,
+                                    choices=[
+                                        [1, '1：全く違うと思う'],
+                                        [2, '2：おおよそ違うと思う'],
+                                        [3, '3：少し違うと思う'],
+                                        [4, '4：どちらでもない'],
+                                        [5, '5：少しそう思う'],
+                                        [6, '6：まあまあそう思う'],
+                                        [7, '7：強くそう思う'],
+                                        ],
+                                verbose_name='6.ひかえめで，おとなしいと思う',
+                                widget=widgets.RadioSelect()
+                                )
+
+
+    big5_7 =  models.IntegerField(initial=None,
+                                    choices=[
+                                        [1, '1：全く違うと思う'],
+                                        [2, '2：おおよそ違うと思う'],
+                                        [3, '3：少し違うと思う'],
+                                        [4, '4：どちらでもない'],
+                                        [5, '5：少しそう思う'],
+                                        [6, '6：まあまあそう思う'],
+                                        [7, '7：強くそう思う'],
+                                        ],
+                                verbose_name='7.人に気をつかう，やさしい人間だと思う',
+                                widget=widgets.RadioSelect()
+                                )
+
+
+    big5_8 =  models.IntegerField(initial=None,
+                                    choices=[
+                                        [1, '1：全く違うと思う'],
+                                        [2, '2：おおよそ違うと思う'],
+                                        [3, '3：少し違うと思う'],
+                                        [4, '4：どちらでもない'],
+                                        [5, '5：少しそう思う'],
+                                        [6, '6：まあまあそう思う'],
+                                        [7, '7：強くそう思う'],
+                                        ],
+                                verbose_name='8.だらしなく，うっかりしていると思う',
+                                widget=widgets.RadioSelect()
+                                )
+
+
+    big5_9 =  models.IntegerField(initial=None,
+                                    choices=[
+                                        [1, '1：全く違うと思う'],
+                                        [2, '2：おおよそ違うと思う'],
+                                        [3, '3：少し違うと思う'],
+                                        [4, '4：どちらでもない'],
+                                        [5, '5：少しそう思う'],
+                                        [6, '6：まあまあそう思う'],
+                                        [7, '7：強くそう思う'],
+                                        ],
+                                verbose_name='9.冷静で，気分が安定していると思う',
+                                widget=widgets.RadioSelect()
+                                )
+
+
+    big5_10 =  models.IntegerField(initial=None,
+                                    choices=[
+                                        [1, '1：全く違うと思う'],
+                                        [2, '2：おおよそ違うと思う'],
+                                        [3, '3：少し違うと思う'],
+                                        [4, '4：どちらでもない'],
+                                        [5, '5：少しそう思う'],
+                                        [6, '6：まあまあそう思う'],
+                                        [7, '7：強くそう思う'],
+                                        ],
+                                verbose_name='10.発想力に欠けた，平凡な人間だと思う',
+                                widget=widgets.RadioSelect()
+                                )
+
+    Gaiko = models.IntegerField()
+    Kyocho = models.IntegerField()
+    Kinben = models.IntegerField()
+    Shinkei = models.IntegerField()
+    Kaiho = models.IntegerField()
+
+
+
     # 陰謀論信奉尺度(ConspiracyPage)
 
-    # 
+    #CRTテスト
 
 # PAGES
 class StartPage(Page):
@@ -79,7 +234,8 @@ class StartPage(Page):
 
 class DemographicPage(Page):
     """デモグラフィック情報収集ページ"""
-    pass
+    form_model = 'player'
+    form_fields = ['q_gender', 'q_age', 'q_area', 'q_education', 'q_device']
 
 # basic.pyではナッジを提示しない。
 #  class HonestyPage(Page):
@@ -89,7 +245,19 @@ class DemographicPage(Page):
 
 class BigFivePage(Page):
     """BigFive心理調査ページ"""
-    pass
+    form_model = 'player'
+    form_fields = ['big5_1',
+                   'big5_2',
+                   'big5_3',
+                   'big5_4',
+                   'big5_5',
+                   'big5_6',
+                   'big5_7',
+                   'big5_8',
+                   'big5_9',
+                   'big5_10']
+
+    #@staticmethod
 
 class ConspiracyPage(Page):
     """陰謀論信奉尺度調査ページ"""
