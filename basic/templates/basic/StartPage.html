@@ -1,0 +1,53 @@
+{{ block title }}
+    アンケートへようこそ
+{{ endblock }}
+
+{{ block content }}
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header text-center">
+            <h2>アンケート調査にご協力ください</h2>
+        </div>
+        <div class="card-body">
+            <p class="lead">
+                この度は、貴重なお時間をいただき誠にありがとうございます。
+            </p>
+            
+            <div class="alert alert-info">
+                <h5><i class="fas fa-info-circle"></i> アンケートについて</h5>
+                <ul>
+                    <li>本調査にかかる時間は約<strong>5-10分</strong>程度です</li>
+                    <li>すべての回答は匿名で処理され、学術研究目的でのみ使用されます</li>
+                    <li>個人を特定できる情報は一切収集いたしません</li>
+                    <li>途中での回答の取りやめも可能です</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-warning">
+                <h5><i class="fas fa-exclamation-triangle"></i> ご注意</h5>
+                <p class="mb-0">
+                    回答途中でブラウザを閉じると、回答内容が失われる可能性があります。
+                    一度に最後まで回答していただくことをお勧めします。
+                </p>
+            </div>
+
+            <p class="text-center mt-4">
+                ご協力いただける場合は、下の「開始」ボタンを押してください。
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    {{ next_button }}
+</div>
+
+<style>
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.alert ul {
+    margin-bottom: 0;
+}
+</style>
+{{ endblock }}

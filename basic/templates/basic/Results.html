@@ -1,12 +1,141 @@
 {{ block title }}
-    Basic Survey - 完了
+    アンケート完了
 {{ endblock }}
 
 {{ block content }}
-<div>
-    <p>
-        Basic Surveyにご回答いただき、ありがとうございました。
-    </p>
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header text-center">
+            <h2><i class="fas fa-check-circle text-success"></i> ありがとうございました！</h2>
+        </div>
+        <div class="card-body text-center">
+            <div class="alert alert-success">
+                <h4><i class="fas fa-heart"></i> アンケートにご協力いただき、ありがとうございました</h4>
+                <p class="mb-0">
+                    いただいた貴重なご回答は、学術研究の発展に大きく貢献します。
+                </p>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <i class="fas fa-shield-alt text-success fa-2x mb-3"></i>
+                            <h6>データの保護</h6>
+                            <small class="text-muted">
+                                お答えいただいた内容は匿名化され、厳重に保護されます
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-info">
+                        <div class="card-body">
+                            <i class="fas fa-graduation-cap text-info fa-2x mb-3"></i>
+                            <h6>研究への貢献</h6>
+                            <small class="text-muted">
+                                研究成果は学術論文として公表される予定です
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <i class="fas fa-users text-primary fa-2x mb-3"></i>
+                            <h6>社会への還元</h6>
+                            <small class="text-muted">
+                                研究結果は社会の発展に活用されます
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="progress mb-3" style="height: 12px;">
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
+                         role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemax="100"></div>
+                </div>
+                <p class="text-success font-weight-bold">
+                    <i class="fas fa-check"></i> 100% 完了
+                </p>
+            </div>
+
+            <div class="mt-4">
+                {{ next_button }}
+            </div>
+
+            <div class="mt-3">
+                <small class="text-muted">
+                    このタブ・ウィンドウを閉じていただいて構いません
+                </small>
+            </div>
+        </div>
+    </div>
 </div>
-    {{ next_button }}
+
+<style>
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border-radius: 0.375rem 0.375rem 0 0 !important;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border: 2px solid #28a745;
+    border-radius: 1rem;
+}
+
+.card.border-success {
+    border-color: #28a745 !important;
+}
+
+.card.border-info {
+    border-color: #17a2b8 !important;
+}
+
+.card.border-primary {
+    border-color: #007bff !important;
+}
+
+.progress {
+    border-radius: 1rem;
+}
+
+.btn-primary {
+    padding: 0.875rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    border-radius: 2rem;
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+}
+
+.fas {
+    margin-right: 0.5rem;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.fa-check-circle {
+    animation: pulse 2s infinite;
+}
+</style>
 {{ endblock }}
