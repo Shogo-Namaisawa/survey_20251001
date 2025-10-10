@@ -1,0 +1,63 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header text-center">
+            <h2><strong>アンケートに回答していただくにあたって</strong></h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="text-left">
+                        {% if player.nudge_message %}
+                            <h3><strong>{{ player.nudge_message }}</strong></h3>
+                        {% else %}
+                            <h3><strong>アンケート調査では設問と関係のない回答や設問をよく読まない不真面目な回答が問題となっております。</strong></h3>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                {{ next_button }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white;
+    border-radius: 0.375rem 0.375rem 0 0 !important;
+}
+
+
+
+.btn-primary {
+    padding: 0.875rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 2rem;
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+
+
+</style>
+{{ endblock }}

@@ -1,0 +1,62 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header text-center">
+            <h2><strong>アンケートは以上になります</strong></h2>
+        </div>
+        <div class="card-body text-center">
+            <p class="lead mb-4">
+                <strong>ご協力ありがとうございました</strong>
+            </p>
+            
+            <div class="mb-4">
+                <p>いただいた貴重なご意見は、研究の発展に役立てさせていただきます。</p>
+            </div>
+
+            <div class="alert alert-success" role="alert" style="margin: 20px auto; max-width: 500px;">
+                <p class="mb-0">このページを閉じていただいて構いません。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+/* 完了カード - 調査終了後の感謝メッセージ表示 */
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 感謝ヘッダー - 調査完了の確認とお礼表示 */
+.card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white;
+    border-radius: 0.375rem 0.375rem 0 0 !important;
+}
+
+/* 強調テキスト - 重要メッセージの視覚的強調 */
+.lead {
+    font-weight: 700;
+}
+
+/* 汎用ボタン - 将来的な追加機能に備えたスタイル */
+.btn-primary {
+    padding: 0.875rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 2rem;
+    transition: transform 0.2s;
+}
+
+/* ボタンホバー効果 - 完了後も良い印象を維持 */
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+</style>
+{{ endblock }}
