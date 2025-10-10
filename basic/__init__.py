@@ -386,6 +386,11 @@ class Player(BasePlayer):
                                 )
 
     #CRTテスト
+    crt_bat = models.PositiveIntegerField()
+    crt_widget = models.PositiveIntegerField()
+    crt_lake = models.PositiveIntegerField()
+    crt_DQS = models.PositiveIntegerField()
+    crt_rank = models.PositiveIntegerField()
 
 # PAGES
 class StartPage(Page):
@@ -437,7 +442,13 @@ class ConspiracyPage(Page):
 
 class CrtPage(Page):
     """認知反射テスト調査ページ"""
-    pass
+    form_model = 'player'
+    form_fields = ['crt_bat',
+                  'crt_widget',
+                  'crt_lake',
+                  'crt_DQS', # 不真面目回答者を抽出する設問
+                  'crt_rank']
+
 
 class Results(Page):
     """完了ページ"""
