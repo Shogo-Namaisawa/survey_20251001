@@ -14,8 +14,22 @@
             </div>
             
             <div class="row">
-                <div class="col-md-8 offset-md-2">
-                    {{ formfields }}
+                <div class="col-md-10 offset-md-1">
+                    <div>
+                        {% formfield player.q_gender %}
+                    </div>
+                    <div>
+                        {% formfield player.q_age %}
+                    </div>
+                    <div>
+                        {% formfield player.q_area %}
+                    </div>
+                    <div>
+                        {% formfield player.q_education %}
+                    </div>
+                    <div>
+                        {% formfield player.q_device %}
+                    </div>
                 </div>
             </div>
             
