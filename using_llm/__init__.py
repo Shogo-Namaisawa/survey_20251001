@@ -11,9 +11,9 @@ class C(BaseConstants):
     NAME_IN_URL = 'using_llm'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-        # ↓↓↓ 追加 ↓↓↓
+############## コメントアウトを解除して、ここにAPI KEY を入力してください。##########################
     #OPENAI_API_KEY = 'YOUR API KEY'
-
+#############################################################################################
 
 class Subsession(BaseSubsession):
     pass
