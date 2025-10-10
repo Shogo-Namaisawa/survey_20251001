@@ -12,7 +12,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
         # ↓↓↓ 追加 ↓↓↓
-    OPENAI_API_KEY = 'YOUR API KEY'
+    #OPENAI_API_KEY = 'YOUR API KEY'
 
 
 class Subsession(BaseSubsession):
