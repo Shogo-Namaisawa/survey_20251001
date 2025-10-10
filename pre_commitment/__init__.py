@@ -432,7 +432,7 @@ class StartPage(Page):
 
 class NudgePage(Page):
     """利得強調ナッジ提示ページ"""
-    pass
+    form_fields = []  # データを保存しない
 
 
 class DemographicPage(Page):
@@ -462,6 +462,9 @@ class BigFivePage(Page):
                    'big5_10']
 
     #@staticmethod
+class NudgePage(Page):
+    """事前宣告ナッジページ"""
+    form_model = Player
 
 class ConspiracyPage(Page):
     """陰謀論信奉尺度調査ページ"""
