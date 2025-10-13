@@ -12,7 +12,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 ############## コメントアウトを解除して、ここにAPI KEY を入力してください。##########################
-    #OPENAI_API_KEY = 'YOUR API KEY'
+    #OPENAI_API_KEY = ''
 #############################################################################################
 
 class Subsession(BaseSubsession):
@@ -435,18 +435,17 @@ class Player(BasePlayer):
 # PAGES
 class StartPage(Page):
     """アンケート開始ページ
-    次へのボタンが押されるとAPIを呼び出すように設定。
     """
+    pass
+
+
+class DemographicPage(Page):
+    """デモグラフィック情報収集ページ"""
+    form_model = 'player'
+    form_fields = ['q_gender', 'q_age', 'q_area', 'q_education', 'q_device']
+
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        # nudge_messageが未設定またはNoneの場合、デフォルト値を設定
-        try:
-            if not player.nudge_message:
-                player.nudge_message = "アンケート調査では設問と関係のない回答や設問をよく読まない不真面目な回答が問題となっております。"
-        except Exception:
-            # フィールドがNoneの場合のエラーをキャッチ
-            player.nudge_message = "アンケート調査では設問と関係のない回答や設問をよく読まない不真面目な回答が問題となっております。"
-        
         # OpenAI clientを初期化
         client = openai.OpenAI(api_key=C.OPENAI_API_KEY)
 
@@ -475,14 +474,6 @@ class NudgePage(Page):
     """LLMによる生成ナッジ提示ページ"""
     # StartPageの次へボタンがAPI呼び出しのトリガーなのでここでの処理はない
     pass
-
-
-class DemographicPage(Page):
-    """デモグラフィック情報収集ページ"""
-    form_model = 'player'
-    form_fields = ['q_gender', 'q_age', 'q_area', 'q_education', 'q_device']
-
-
 
 
 class BigFivePage(Page):
