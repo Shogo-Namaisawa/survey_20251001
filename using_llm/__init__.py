@@ -12,7 +12,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 ############## コメントアウトを解除して、ここにAPI KEY を入力してください。##########################
-    #OPENAI_API_KEY = ''
+    # OPENAI_API_KEY = ''
 #############################################################################################
 
 class Subsession(BaseSubsession):
@@ -460,6 +460,7 @@ class DemographicPage(Page):
                     {"role": "system", "content": prompt_text},
                     {"role": "user", "content": "100字以内でメッセージを生成してください。"}
                 ],
+                temperature=0.9,
                 max_tokens=300 # トークン数の調整
             )
             # 生成されたメッセージをPlayerモデルに保存
