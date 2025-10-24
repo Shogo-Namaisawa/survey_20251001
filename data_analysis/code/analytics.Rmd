@@ -5,9 +5,29 @@ date: "`r Sys.Date()`"
 output: html_document
 ---
 
-# はじめに
+# 不真面目回答に対するLLMを活用したナッジ介入の効果の検討：クラウドソーシングを用いて
+本分析は、クラウドソーシング上でのアンケートを用いた実証実験における不真面目回答者に対するLLMを活用したナッジ介入、また既存の研究で効果あるとされているナッジ介入の効果を検証することを目的としています。
 
-この分析では、不真面目回答が調査結果に与える影響を検証します。
+## 各データの読み込み
+```{r load-libraries}
+# 必要なライブラリの読み込み
+library(readr)
+library(dplyr)
+library(ggplot2)
+``` 
+
+## データの読み込み
+```{r load-data}
+# 各データセットの読み込み
+basic_data <- read_csv("../data/basic_2025-10-24.csv")
+gain_emphasis_data <- read_csv("../data/gain_emphasis_2025-10-24.csv")
+loss_aversion_data <- read_csv("../data/loss_aversion_2025-10-24.csv")
+pre_commitment_data <- read_csv("../data/pre_commitment_2025-10-24.csv")
+using_llm_data <- read_csv("../data/using_llm_2025-10-24.csv")
+``` 
+
+
+
 
 # データの概要
 
