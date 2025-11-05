@@ -1,0 +1,1254 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={不真面目回答の効果検証},
+  pdfauthor={Your Name},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{不真面目回答の効果検証}
+\author{Your Name}
+\date{2025-10-30}
+
+\begin{document}
+\maketitle
+
+\section{不真面目回答に対するLLMを活用したナッジ介入の効果の検討：クラウドソーシングを用いて}\label{ux4e0dux771fux9762ux76eeux56deux7b54ux306bux5bfeux3059ux308bllmux3092ux6d3bux7528ux3057ux305fux30caux30c3ux30b8ux4ecbux5165ux306eux52b9ux679cux306eux691cux8a0eux30afux30e9ux30a6ux30c9ux30bdux30fcux30b7ux30f3ux30b0ux3092ux7528ux3044ux3066}
+
+\subsection{ライブラリの読み込み}\label{ux30e9ux30a4ux30d6ux30e9ux30eaux306eux8aadux307fux8fbcux307f}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pacman}\SpecialCharTok{::}\FunctionTok{p\_load}\NormalTok{(}
+\NormalTok{  tidyverse,}
+\NormalTok{  ggplotgui,}\CommentTok{\#ggplot\_shiny(exdataset)}
+\NormalTok{  GGally,}
+\NormalTok{  broom,}
+\NormalTok{  kableExtra,}
+  \DocumentationTok{\#\#\# table1を表にしてまとめやすく}
+\NormalTok{  table1,}
+\NormalTok{  sjPlot}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{データ前処理}\label{ux30c7ux30fcux30bfux524dux51e6ux7406}
+
+5つのデータセットを読み込み、基本データセットから必要なカラムを抽出して一つの新しいデータフレームを作成します。
+\#\# データの読み込み
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 各データセットの読み込み}
+\NormalTok{basic }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"../data/basic\_2025{-}10{-}24.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 195 Columns: 67
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr   (5): participant.code, participant.label, participant._current_app_nam...
+## dbl  (49): participant.id_in_session, participant._is_bot, participant._inde...
+## lgl  (12): participant.mturk_worker_id, participant.mturk_assignment_id, pla...
+## time  (1): participant.time_started_utc
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gain\_emphasis }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"../data/gain\_emphasis\_2025{-}10{-}24.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 193 Columns: 67
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr   (5): participant.code, participant.label, participant._current_app_nam...
+## dbl  (49): participant.id_in_session, participant._is_bot, participant._inde...
+## lgl  (12): participant.mturk_worker_id, participant.mturk_assignment_id, pla...
+## time  (1): participant.time_started_utc
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{loss\_aversion }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"../data/loss\_aversion\_2025{-}10{-}24.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 188 Columns: 67
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr   (5): participant.code, participant.label, participant._current_app_nam...
+## dbl  (49): participant.id_in_session, participant._is_bot, participant._inde...
+## lgl  (12): participant.mturk_worker_id, participant.mturk_assignment_id, pla...
+## time  (1): participant.time_started_utc
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pre\_commitment }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"../data/pre\_commitment\_2025{-}10{-}24.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 190 Columns: 67
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr   (5): participant.code, participant.label, participant._current_app_nam...
+## dbl  (49): participant.id_in_session, participant._is_bot, participant._inde...
+## lgl  (12): participant.mturk_worker_id, participant.mturk_assignment_id, pla...
+## time  (1): participant.time_started_utc
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{using\_llm }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"../data/using\_llm\_2025{-}10{-}24.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 192 Columns: 68
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr   (6): participant.code, participant.label, participant._current_app_nam...
+## dbl  (49): participant.id_in_session, participant._is_bot, participant._inde...
+## lgl  (12): participant.mturk_worker_id, participant.mturk_assignment_id, pla...
+## time  (1): participant.time_started_utc
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\subsection{データの加工}\label{ux30c7ux30fcux30bfux306eux52a0ux5de5}
+
+必要な列のみ抽出
+
+\subsubsection{basicデータの加工}\label{basicux30c7ux30fcux30bfux306eux52a0ux5de5}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# basicデータから必要なカラムを抽出してbasic\_dfを作成}
+\NormalTok{basic\_df }\OtherTok{\textless{}{-}}\NormalTok{ basic }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}
+\NormalTok{    participant.id\_in\_session,}
+\NormalTok{    participant.\_index\_in\_pages,}
+\NormalTok{    participant.time\_started\_utc,}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.q\_"}\NormalTok{),  }\CommentTok{\# player.q\_gender, player.q\_age, etc.}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.big5\_"}\NormalTok{), }\CommentTok{\# BigFive関連}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.inboron"}\NormalTok{), }\CommentTok{\# 陰謀論関連}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.crt\_"}\NormalTok{)   }\CommentTok{\# CRT関連}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{category =} \StringTok{"basic"}\NormalTok{)  }\CommentTok{\# categoryカラムを追加}
+
+\CommentTok{\# basic\_dfの先頭6行を表示}
+\FunctionTok{head}\NormalTok{(basic\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 42
+##   participant.id_in_session participant._index_in_pages participant.time_start~1
+##                       <dbl>                       <dbl> <time>                  
+## 1                         1                           8 43'00"                  
+## 2                         2                           8 44'00"                  
+## 3                         3                           8 44'00"                  
+## 4                         4                           8 45'00"                  
+## 5                         5                           8 45'00"                  
+## 6                         6                           8 45'00"                  
+## # i abbreviated name: 1: participant.time_started_utc
+## # i 39 more variables: player.q_gender <dbl>, player.q_age <dbl>,
+## #   player.q_area <dbl>, player.q_education <dbl>, player.q_device <dbl>,
+## #   player.big5_1 <dbl>, player.big5_2 <dbl>, player.big5_3 <dbl>,
+## #   player.big5_4 <dbl>, player.big5_5 <dbl>, player.big5_6 <dbl>,
+## #   player.big5_7 <dbl>, player.big5_IMC <dbl>, player.big5_8 <dbl>,
+## #   player.big5_9 <dbl>, player.big5_10 <dbl>, player.inboron1 <dbl>, ...
+\end{verbatim}
+
+\subsubsection{gain\_emphasisデータの加工}\label{gain_emphasisux30c7ux30fcux30bfux306eux52a0ux5de5}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# gain\_emphasisデータから必要なカラムを抽出してgain\_emphasis\_dfを作成}
+\NormalTok{gain\_emphasis\_df }\OtherTok{\textless{}{-}}\NormalTok{ gain\_emphasis }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}
+\NormalTok{    participant.id\_in\_session,}
+\NormalTok{    participant.\_index\_in\_pages,}
+\NormalTok{    participant.time\_started\_utc,}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.q\_"}\NormalTok{),  }\CommentTok{\# player.q\_gender, player.q\_age, etc.}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.big5\_"}\NormalTok{), }\CommentTok{\# BigFive関連}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.inboron"}\NormalTok{), }\CommentTok{\# 陰謀論関連}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.crt\_"}\NormalTok{)   }\CommentTok{\# CRT関連}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{category =} \StringTok{"gain\_emphasis"}\NormalTok{)  }\CommentTok{\# categoryカラムを追加}
+
+\CommentTok{\# gain\_emphasis\_dfの先頭6行を表示}
+\FunctionTok{head}\NormalTok{(gain\_emphasis\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 42
+##   participant.id_in_session participant._index_in_pages participant.time_start~1
+##                       <dbl>                       <dbl> <time>                  
+## 1                         1                           9 43'00"                  
+## 2                         2                           9 43'00"                  
+## 3                         3                           9 44'00"                  
+## 4                         4                           9 44'00"                  
+## 5                         5                           9 45'00"                  
+## 6                         6                           9 45'00"                  
+## # i abbreviated name: 1: participant.time_started_utc
+## # i 39 more variables: player.q_gender <dbl>, player.q_age <dbl>,
+## #   player.q_area <dbl>, player.q_education <dbl>, player.q_device <dbl>,
+## #   player.big5_1 <dbl>, player.big5_2 <dbl>, player.big5_3 <dbl>,
+## #   player.big5_4 <dbl>, player.big5_5 <dbl>, player.big5_6 <dbl>,
+## #   player.big5_7 <dbl>, player.big5_IMC <dbl>, player.big5_8 <dbl>,
+## #   player.big5_9 <dbl>, player.big5_10 <dbl>, player.inboron1 <dbl>, ...
+\end{verbatim}
+
+\subsubsection{loss\_aversionデータの加工}\label{loss_aversionux30c7ux30fcux30bfux306eux52a0ux5de5}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# loss\_aversionデータから必要なカラムを抽出してloss\_aversion\_dfを作成}
+\NormalTok{loss\_aversion\_df }\OtherTok{\textless{}{-}}\NormalTok{ loss\_aversion }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}
+\NormalTok{    participant.id\_in\_session,}
+\NormalTok{    participant.\_index\_in\_pages,}
+\NormalTok{    participant.time\_started\_utc,}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.q\_"}\NormalTok{),  }\CommentTok{\# player.q\_gender, player.q\_age, etc.}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.big5\_"}\NormalTok{), }\CommentTok{\# BigFive関連}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.inboron"}\NormalTok{), }\CommentTok{\# 陰謀論関連}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.crt\_"}\NormalTok{)   }\CommentTok{\# CRT関連}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{category =} \StringTok{"loss\_aversion"}\NormalTok{)  }\CommentTok{\# categoryカラムを追加}
+
+\CommentTok{\# loss\_aversion\_dfの先頭6行を表示}
+\FunctionTok{head}\NormalTok{(loss\_aversion\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 42
+##   participant.id_in_session participant._index_in_pages participant.time_start~1
+##                       <dbl>                       <dbl> <time>                  
+## 1                         1                           9 44'00"                  
+## 2                         2                           9 45'00"                  
+## 3                         3                           9 46'00"                  
+## 4                         4                           9 46'00"                  
+## 5                         5                           9 46'00"                  
+## 6                         6                           9 46'00"                  
+## # i abbreviated name: 1: participant.time_started_utc
+## # i 39 more variables: player.q_gender <dbl>, player.q_age <dbl>,
+## #   player.q_area <dbl>, player.q_education <dbl>, player.q_device <dbl>,
+## #   player.big5_1 <dbl>, player.big5_2 <dbl>, player.big5_3 <dbl>,
+## #   player.big5_4 <dbl>, player.big5_5 <dbl>, player.big5_6 <dbl>,
+## #   player.big5_7 <dbl>, player.big5_IMC <dbl>, player.big5_8 <dbl>,
+## #   player.big5_9 <dbl>, player.big5_10 <dbl>, player.inboron1 <dbl>, ...
+\end{verbatim}
+
+\subsubsection{pre\_commitmentデータの加工}\label{pre_commitmentux30c7ux30fcux30bfux306eux52a0ux5de5}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# pre\_commitmentデータから必要なカラムを抽出してpre\_commitment\_dfを作成}
+\NormalTok{pre\_commitment\_df }\OtherTok{\textless{}{-}}\NormalTok{ pre\_commitment }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}
+\NormalTok{    participant.id\_in\_session,}
+\NormalTok{    participant.\_index\_in\_pages,}
+\NormalTok{    participant.time\_started\_utc,}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.q\_"}\NormalTok{),  }\CommentTok{\# player.q\_gender, player.q\_age, etc.}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.big5\_"}\NormalTok{), }\CommentTok{\# BigFive関連}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.inboron"}\NormalTok{), }\CommentTok{\# 陰謀論関連}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.crt\_"}\NormalTok{)   }\CommentTok{\# CRT関連}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{category =} \StringTok{"pre\_commitment"}\NormalTok{)  }\CommentTok{\# categoryカラムを追加}
+
+\CommentTok{\# pre\_commitment\_dfの先頭6行を表示}
+\FunctionTok{head}\NormalTok{(pre\_commitment\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 42
+##   participant.id_in_session participant._index_in_pages participant.time_start~1
+##                       <dbl>                       <dbl> <time>                  
+## 1                         1                           9 42'00"                  
+## 2                         2                           9 43'00"                  
+## 3                         3                           9 43'00"                  
+## 4                         4                           9 44'00"                  
+## 5                         5                           9 44'00"                  
+## 6                         6                           9 44'00"                  
+## # i abbreviated name: 1: participant.time_started_utc
+## # i 39 more variables: player.q_gender <dbl>, player.q_age <dbl>,
+## #   player.q_area <dbl>, player.q_education <dbl>, player.q_device <dbl>,
+## #   player.big5_1 <dbl>, player.big5_2 <dbl>, player.big5_3 <dbl>,
+## #   player.big5_4 <dbl>, player.big5_5 <dbl>, player.big5_6 <dbl>,
+## #   player.big5_7 <dbl>, player.big5_IMC <dbl>, player.big5_8 <dbl>,
+## #   player.big5_9 <dbl>, player.big5_10 <dbl>, player.inboron1 <dbl>, ...
+\end{verbatim}
+
+\subsubsection{using\_llmデータの加工}\label{using_llmux30c7ux30fcux30bfux306eux52a0ux5de5}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# using\_llmデータから必要なカラムを抽出してusing\_llm\_dfを作成}
+\NormalTok{using\_llm\_df }\OtherTok{\textless{}{-}}\NormalTok{ using\_llm }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}
+\NormalTok{    participant.id\_in\_session,}
+\NormalTok{    participant.\_index\_in\_pages,}
+\NormalTok{    participant.time\_started\_utc,}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.q\_"}\NormalTok{),  }\CommentTok{\# player.q\_gender, player.q\_age, etc.}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.big5\_"}\NormalTok{), }\CommentTok{\# BigFive関連}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.inboron"}\NormalTok{), }\CommentTok{\# 陰謀論関連}
+    \FunctionTok{starts\_with}\NormalTok{(}\StringTok{"player.crt\_"}\NormalTok{)   }\CommentTok{\# CRT関連}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{category =} \StringTok{"using\_llm"}\NormalTok{)  }\CommentTok{\# categoryカラムを追加}
+
+\CommentTok{\# using\_llm\_dfの先頭6行を表示}
+\FunctionTok{head}\NormalTok{(using\_llm\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 42
+##   participant.id_in_session participant._index_in_pages participant.time_start~1
+##                       <dbl>                       <dbl> <time>                  
+## 1                         1                           9 44'00"                  
+## 2                         2                           9 44'00"                  
+## 3                         3                           9 44'00"                  
+## 4                         4                           9 45'00"                  
+## 5                         5                           9 45'00"                  
+## 6                         6                           9 45'00"                  
+## # i abbreviated name: 1: participant.time_started_utc
+## # i 39 more variables: player.q_gender <dbl>, player.q_age <dbl>,
+## #   player.q_area <dbl>, player.q_education <dbl>, player.q_device <dbl>,
+## #   player.big5_1 <dbl>, player.big5_2 <dbl>, player.big5_3 <dbl>,
+## #   player.big5_4 <dbl>, player.big5_5 <dbl>, player.big5_6 <dbl>,
+## #   player.big5_7 <dbl>, player.big5_IMC <dbl>, player.big5_8 <dbl>,
+## #   player.big5_9 <dbl>, player.big5_10 <dbl>, player.inboron1 <dbl>, ...
+\end{verbatim}
+
+\subsection{全データの結合}\label{ux5168ux30c7ux30fcux30bfux306eux7d50ux5408}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 5つのデータフレームを結合してall\_dataを作成}
+\NormalTok{all\_data }\OtherTok{\textless{}{-}} \FunctionTok{bind\_rows}\NormalTok{(}
+\NormalTok{  basic\_df,}
+\NormalTok{  gain\_emphasis\_df,}
+\NormalTok{  loss\_aversion\_df,}
+\NormalTok{  pre\_commitment\_df,}
+\NormalTok{  using\_llm\_df}
+\NormalTok{)}
+
+\CommentTok{\# all\_dataの概要確認}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"総行数:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(all\_data), }\StringTok{"行}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 総行数: 958 行
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"総列数:"}\NormalTok{, }\FunctionTok{ncol}\NormalTok{(all\_data), }\StringTok{"列}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 総列数: 42 列
+\end{verbatim}
+
+\subsection{DQSのダミー列を作成}\label{dqsux306eux30c0ux30dfux30fcux5217ux3092ux4f5cux6210}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# DQS\_1カラムを追加（player.big5\_IMCが5なら0、それ以外は1）}
+\NormalTok{all\_data }\OtherTok{\textless{}{-}}\NormalTok{ all\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{DQS\_1 =} \FunctionTok{ifelse}\NormalTok{(player.big5\_IMC }\SpecialCharTok{==} \DecValTok{5}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+\CommentTok{\# DQS\_2カラムを追加（player.inboronIMCが4なら0、それ以外は1）}
+\NormalTok{all\_data }\OtherTok{\textless{}{-}}\NormalTok{ all\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{DQS\_2 =} \FunctionTok{ifelse}\NormalTok{(player.inboronIMC }\SpecialCharTok{==} \DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+\CommentTok{\# DQS\_3カラムを追加（player.crt\_DQSが27なら0、それ以外は1）}
+\NormalTok{all\_data }\OtherTok{\textless{}{-}}\NormalTok{ all\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{DQS\_3 =} \FunctionTok{ifelse}\NormalTok{(player.crt\_DQS }\SpecialCharTok{==} \DecValTok{27}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+
+
+\CommentTok{\# DQSカラムの分布確認}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== DQS\_1 の分布 ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === DQS_1 の分布 ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(all\_data}\SpecialCharTok{$}\NormalTok{DQS\_1, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    0    1 <NA> 
+##  871   37   50
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== DQS\_2 の分布 ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === DQS_2 の分布 ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(all\_data}\SpecialCharTok{$}\NormalTok{DQS\_2, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    0    1 <NA> 
+##  819   86   53
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== DQS\_3 の分布 ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === DQS_3 の分布 ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(all\_data}\SpecialCharTok{$}\NormalTok{DQS\_3, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    0    1 <NA> 
+##  758  131   69
+\end{verbatim}
+
+\subsubsection{0が真面目回答者、1が不真面目回答者と定義する。（NAは途中離脱者）}\label{ux304cux771fux9762ux76eeux56deux7b54ux80051ux304cux4e0dux771fux9762ux76eeux56deux7b54ux8005ux3068ux5b9aux7fa9ux3059ux308bnaux306fux9014ux4e2dux96e2ux8131ux8005}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Or\_DQSカラムを追加（DQS\_1, DQS\_2, DQS\_3のいずれかが1なら1、すべて0なら0）}
+\NormalTok{all\_data }\OtherTok{\textless{}{-}}\NormalTok{ all\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Or\_DQS =} \FunctionTok{ifelse}\NormalTok{(DQS\_1 }\SpecialCharTok{==} \DecValTok{1} \SpecialCharTok{|}\NormalTok{ DQS\_2 }\SpecialCharTok{==} \DecValTok{1} \SpecialCharTok{|}\NormalTok{ DQS\_3 }\SpecialCharTok{==} \DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== Or\_DQS の分布 ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === Or_DQS の分布 ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(all\_data}\SpecialCharTok{$}\NormalTok{Or\_DQS, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    0    1 <NA> 
+##  683  211   64
+\end{verbatim}
+
+\subsection{ダミー回帰用データの作成}\label{ux30c0ux30dfux30fcux56deux5e30ux7528ux30c7ux30fcux30bfux306eux4f5cux6210}
+
+途中で回答を中断しているデータを除外する
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# データ除外前の行数を確認}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== データ除外前の行数 ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === データ除外前の行数 ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"除外前の総行数:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(all\_data), }\StringTok{"行}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 除外前の総行数: 958 行
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# player.crt\_rankがNAの行数を確認}
+\NormalTok{na\_count }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(all\_data}\SpecialCharTok{$}\NormalTok{player.crt\_rank))}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"player.crt\_rankがNAの行数:"}\NormalTok{, na\_count, }\StringTok{"行}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## player.crt_rankがNAの行数: 69 行
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# player.crt\_rankがNAの行を除外}
+\NormalTok{dummy\_all\_data }\OtherTok{\textless{}{-}}\NormalTok{ all\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(player.crt\_rank)) }\SpecialCharTok{\%\textgreater{}\%}  \CommentTok{\# player.crt\_rankがNAの行を除外}
+  \FunctionTok{mutate}\NormalTok{(}
+    \CommentTok{\# 各カテゴリのダミー変数を作成}
+    \AttributeTok{basic =} \FunctionTok{ifelse}\NormalTok{(category }\SpecialCharTok{==} \StringTok{"basic"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{),}
+    \AttributeTok{gain\_emphasis =} \FunctionTok{ifelse}\NormalTok{(category }\SpecialCharTok{==} \StringTok{"gain\_emphasis"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{),}
+    \AttributeTok{loss\_aversion =} \FunctionTok{ifelse}\NormalTok{(category }\SpecialCharTok{==} \StringTok{"loss\_aversion"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{),}
+    \AttributeTok{pre\_commitment =} \FunctionTok{ifelse}\NormalTok{(category }\SpecialCharTok{==} \StringTok{"pre\_commitment"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{),}
+    \AttributeTok{using\_llm =} \FunctionTok{ifelse}\NormalTok{(category }\SpecialCharTok{==} \StringTok{"using\_llm"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+\NormalTok{  )}
+
+\CommentTok{\# データ除外後の情報確認}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== データ除外後の情報 ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === データ除外後の情報 ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"除外後の総行数:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(dummy\_all\_data), }\StringTok{"行}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 除外後の総行数: 889 行
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"除外された行数:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(all\_data) }\SpecialCharTok{{-}} \FunctionTok{nrow}\NormalTok{(dummy\_all\_data), }\StringTok{"行}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 除外された行数: 69 行
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ダミー変数の分布確認}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== ダミー変数のデータ数の確認 ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === ダミー変数のデータ数の確認 ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"basic:"}\NormalTok{, }\FunctionTok{sum}\NormalTok{(dummy\_all\_data}\SpecialCharTok{$}\NormalTok{basic), }\StringTok{"行}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## basic: 178 行
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"gain\_emphasis:"}\NormalTok{, }\FunctionTok{sum}\NormalTok{(dummy\_all\_data}\SpecialCharTok{$}\NormalTok{gain\_emphasis), }\StringTok{"行}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## gain_emphasis: 177 行
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"loss\_aversion:"}\NormalTok{, }\FunctionTok{sum}\NormalTok{(dummy\_all\_data}\SpecialCharTok{$}\NormalTok{loss\_aversion), }\StringTok{"行}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## loss_aversion: 178 行
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"pre\_commitment:"}\NormalTok{, }\FunctionTok{sum}\NormalTok{(dummy\_all\_data}\SpecialCharTok{$}\NormalTok{pre\_commitment), }\StringTok{"行}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## pre_commitment: 176 行
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"using\_llm:"}\NormalTok{, }\FunctionTok{sum}\NormalTok{(dummy\_all\_data}\SpecialCharTok{$}\NormalTok{using\_llm), }\StringTok{"行}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## using_llm: 180 行
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# dummy\_all\_dataをCSVファイルとして出力}
+\CommentTok{\#write\_csv(dummy\_all\_data, "../data/dummy\_all\_data\_processed.csv")}
+\CommentTok{\#cat("\textbackslash{}n=== CSVファイル出力完了 ===\textbackslash{}n")}
+\CommentTok{\#cat("ファイル名: dummy\_all\_data\_processed.csv\textbackslash{}n")}
+\CommentTok{\#cat("保存場所: ../data/\textbackslash{}n")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{記述統計量（不真面目回答者の割合）}\label{ux8a18ux8ff0ux7d71ux8a08ux91cfux4e0dux771fux9762ux76eeux56deux7b54ux8005ux306eux5272ux5408}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# table1パッケージを使った記述統計量}
+\CommentTok{\# categoryを因子に変換してラベルを設定}
+\NormalTok{dummy\_all\_data\_for\_table }\OtherTok{\textless{}{-}}\NormalTok{ dummy\_all\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{category =} \FunctionTok{factor}\NormalTok{(category, }
+                     \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"basic"}\NormalTok{, }\StringTok{"gain\_emphasis"}\NormalTok{, }\StringTok{"loss\_aversion"}\NormalTok{, }
+                               \StringTok{"pre\_commitment"}\NormalTok{, }\StringTok{"using\_llm"}\NormalTok{),}
+                     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Basic"}\NormalTok{, }\StringTok{"Gain Emphasis"}\NormalTok{, }\StringTok{"Loss Aversion"}\NormalTok{, }
+                               \StringTok{"Pre Commitment"}\NormalTok{, }\StringTok{"Using LLM"}\NormalTok{))}
+\NormalTok{  )}
+
+\CommentTok{\# table1を使った記述統計量表の作成}
+\FunctionTok{table1}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ Or\_DQS }\SpecialCharTok{+}\NormalTok{ DQS\_1 }\SpecialCharTok{+}\NormalTok{ DQS\_2 }\SpecialCharTok{+}\NormalTok{ DQS\_3 }\SpecialCharTok{|}\NormalTok{ category, }
+       \AttributeTok{data =}\NormalTok{ dummy\_all\_data\_for\_table,}
+       \AttributeTok{caption =} \StringTok{"Descriptive Statistics by Experimental Condition"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:descriptive-statistics}Descriptive Statistics by Experimental Condition}
+\centering
+\begin{tabular}[t]{lllllll}
+\toprule
+  & Basic & Gain Emphasis & Loss Aversion & Pre Commitment & Using LLM & Overall\\
+\midrule
+ & (N=178) & (N=177) & (N=178) & (N=176) & (N=180) & (N=889)\\
+\addlinespace[0.3em]
+\multicolumn{7}{l}{\textbf{Or\_DQS}}\\
+\hspace{1em}Mean (SD) & 0.242 (0.429) & 0.226 (0.419) & 0.202 (0.403) & 0.250 (0.434) & 0.239 (0.428) & 0.232 (0.422)\\
+\hspace{1em}Median [Min, Max] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, \vphantom{3} 1.00]\\
+\addlinespace[0.3em]
+\multicolumn{7}{l}{\textbf{DQS\_1}}\\
+\hspace{1em}Mean (SD) & 0.0562 (0.231) & 0.0282 (0.166) & 0.0449 (0.208) & 0.0341 (0.182) & 0.0389 (0.194) & 0.0405 (0.197)\\
+\hspace{1em}Median [Min, Max] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, \vphantom{2} 1.00]\\
+\addlinespace[0.3em]
+\multicolumn{7}{l}{\textbf{DQS\_2}}\\
+\hspace{1em}Mean (SD) & 0.0787 (0.270) & 0.0960 (0.295) & 0.0955 (0.295) & 0.0966 (0.296) & 0.0944 (0.293) & 0.0922 (0.290)\\
+\hspace{1em}Median [Min, Max] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, \vphantom{1} 1.00]\\
+\addlinespace[0.3em]
+\multicolumn{7}{l}{\textbf{DQS\_3}}\\
+\hspace{1em}Mean (SD) & 0.146 (0.354) & 0.136 (0.343) & 0.124 (0.330) & 0.165 (0.372) & 0.167 (0.374) & 0.147 (0.355)\\
+\hspace{1em}Median [Min, Max] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00] & 0 [0, 1.00]\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{ダミー回帰分析}\label{ux30c0ux30dfux30fcux56deux5e30ux5206ux6790}
+
+\subsubsection{共変量なしモデル}\label{ux5171ux5909ux91cfux306aux3057ux30e2ux30c7ux30eb}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Or\_DQSを従属変数としたダミー回帰分析（basicを基準カテゴリとして使用）}
+\NormalTok{model\_or\_dqs }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Or\_DQS }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gain\_emphasis }\SpecialCharTok{+}\NormalTok{ loss\_aversion }\SpecialCharTok{+}\NormalTok{ pre\_commitment }\SpecialCharTok{+}\NormalTok{ using\_llm, }
+                   \AttributeTok{data =}\NormalTok{ dummy\_all\_data)}
+
+\CommentTok{\# 回帰結果の表示}
+\FunctionTok{summary}\NormalTok{(model\_or\_dqs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Or_DQS ~ gain_emphasis + loss_aversion + pre_commitment + 
+##     using_llm, data = dummy_all_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.2500 -0.2416 -0.2260 -0.2023  0.7977 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)     0.241573   0.031690   7.623 6.38e-14 ***
+## gain_emphasis  -0.015584   0.044879  -0.347    0.728    
+## loss_aversion  -0.039326   0.044816  -0.877    0.380    
+## pre_commitment  0.008427   0.044943   0.188    0.851    
+## using_llm      -0.002684   0.044691  -0.060    0.952    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4228 on 884 degrees of freedom
+## Multiple R-squared:  0.001553,   Adjusted R-squared:  -0.002965 
+## F-statistic: 0.3437 on 4 and 884 DF,  p-value: 0.8485
+\end{verbatim}
+
+\section{共変量ありモデル}\label{ux5171ux5909ux91cfux3042ux308aux30e2ux30c7ux30eb}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Model 1: ベースライン（共変量なし）{-} 前のモデルと同じ}
+\NormalTok{model1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Or\_DQS }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gain\_emphasis }\SpecialCharTok{+}\NormalTok{ loss\_aversion }\SpecialCharTok{+}\NormalTok{ pre\_commitment }\SpecialCharTok{+}\NormalTok{ using\_llm, }
+             \AttributeTok{data =}\NormalTok{ dummy\_all\_data)}
+
+\CommentTok{\# Model 2: 人口統計学的変数（性別・年齢）を追加}
+\NormalTok{model2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Or\_DQS }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gain\_emphasis }\SpecialCharTok{+}\NormalTok{ loss\_aversion }\SpecialCharTok{+}\NormalTok{ pre\_commitment }\SpecialCharTok{+}\NormalTok{ using\_llm }\SpecialCharTok{+} 
+\NormalTok{             player.q\_gender }\SpecialCharTok{+}\NormalTok{ player.q\_age, }
+             \AttributeTok{data =}\NormalTok{ dummy\_all\_data)}
+
+\CommentTok{\# Model 3: さらに社会的変数（学歴・居住地）を追加}
+\NormalTok{model3 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Or\_DQS }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gain\_emphasis }\SpecialCharTok{+}\NormalTok{ loss\_aversion }\SpecialCharTok{+}\NormalTok{ pre\_commitment }\SpecialCharTok{+}\NormalTok{ using\_llm }\SpecialCharTok{+} 
+\NormalTok{             player.q\_gender }\SpecialCharTok{+}\NormalTok{ player.q\_age }\SpecialCharTok{+}\NormalTok{ player.q\_education }\SpecialCharTok{+}\NormalTok{ player.q\_area, }
+             \AttributeTok{data =}\NormalTok{ dummy\_all\_data)}
+
+\CommentTok{\# Model 4: デバイス情報も追加（フルモデル）}
+\NormalTok{model4 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Or\_DQS }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gain\_emphasis }\SpecialCharTok{+}\NormalTok{ loss\_aversion }\SpecialCharTok{+}\NormalTok{ pre\_commitment }\SpecialCharTok{+}\NormalTok{ using\_llm }\SpecialCharTok{+} 
+\NormalTok{             player.q\_gender }\SpecialCharTok{+}\NormalTok{ player.q\_age }\SpecialCharTok{+}\NormalTok{ player.q\_education }\SpecialCharTok{+}\NormalTok{ player.q\_area }\SpecialCharTok{+}\NormalTok{ player.q\_device, }
+             \AttributeTok{data =}\NormalTok{ dummy\_all\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tab\_model}\NormalTok{(model1, model2, model3, model4, }
+          \AttributeTok{show.aic =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+~
+
+Or\_DQS
+
+Or\_DQS
+
+Or\_DQS
+
+Or\_DQS
+
+Predictors
+
+Estimates
+
+CI
+
+p
+
+Estimates
+
+CI
+
+p
+
+Estimates
+
+CI
+
+p
+
+Estimates
+
+CI
+
+p
+
+(Intercept)
+
+0.24
+
+0.18~--~0.30
+
+\textless0.001
+
+0.37
+
+0.26~--~0.48
+
+\textless0.001
+
+0.43
+
+0.29~--~0.58
+
+\textless0.001
+
+0.43
+
+0.28~--~0.57
+
+\textless0.001
+
+gain emphasis
+
+-0.02
+
+-0.10~--~0.07
+
+0.728
+
+-0.02
+
+-0.10~--~0.07
+
+0.735
+
+-0.02
+
+-0.10~--~0.07
+
+0.727
+
+-0.01
+
+-0.10~--~0.07
+
+0.747
+
+loss aversion
+
+-0.04
+
+-0.13~--~0.05
+
+0.380
+
+-0.04
+
+-0.13~--~0.04
+
+0.338
+
+-0.04
+
+-0.13~--~0.05
+
+0.357
+
+-0.04
+
+-0.13~--~0.05
+
+0.369
+
+pre commitment
+
+0.01
+
+-0.08~--~0.10
+
+0.851
+
+0.01
+
+-0.08~--~0.10
+
+0.794
+
+0.01
+
+-0.08~--~0.10
+
+0.819
+
+0.01
+
+-0.08~--~0.10
+
+0.807
+
+using llm
+
+-0.00
+
+-0.09~--~0.09
+
+0.952
+
+-0.00
+
+-0.09~--~0.08
+
+0.937
+
+-0.01
+
+-0.09~--~0.08
+
+0.889
+
+-0.01
+
+-0.09~--~0.08
+
+0.900
+
+player q gender
+
+0.00
+
+-0.06~--~0.06
+
+0.936
+
+-0.01
+
+-0.07~--~0.05
+
+0.826
+
+-0.01
+
+-0.07~--~0.05
+
+0.755
+
+player q age
+
+-0.03
+
+-0.06~--~-0.01
+
+0.005
+
+-0.04
+
+-0.06~--~-0.01
+
+0.003
+
+-0.04
+
+-0.06~--~-0.01
+
+0.003
+
+player q education
+
+-0.02
+
+-0.04~--~-0.00
+
+0.045
+
+-0.02
+
+-0.04~--~0.00
+
+0.050
+
+player q area
+
+0.00
+
+-0.01~--~0.02
+
+0.785
+
+0.00
+
+-0.01~--~0.02
+
+0.779
+
+player q device
+
+0.01
+
+-0.02~--~0.04
+
+0.647
+
+Observations
+
+889
+
+889
+
+889
+
+889
+
+R2 / R2 adjusted
+
+0.002 / -0.003
+
+0.011 / 0.004
+
+0.015 / 0.006
+
+0.015 / 0.005
+
+AIC
+
+999.234
+
+995.086
+
+994.953
+
+996.740
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{分析のフロー}\label{ux5206ux6790ux306eux30d5ux30edux30fc}
+
+\begin{itemize}
+\item
+  \textbf{1. ライブラリの読み込み}
+\item
+  \textbf{2. データ前処理}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{データの読み込み}: 5つの異なる実験条件（basic,
+    gain\_emphasis, loss\_aversion, pre\_commitment,
+    using\_llm）のCSVファイルをそれぞれ読み込む。
+  \item
+    \textbf{データの加工}:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      各データセットから、分析に必要な列（参加者ID、デモグラフィック、BigFive尺度、陰謀論尺度、CRT尺度など）のみを抽出します。
+    \item
+      どの実験条件のデータかを示す\texttt{category}列を各データセットに追加します。
+    \end{itemize}
+  \item
+    \textbf{全データの結合}:
+    5つのデータフレームを縦に結合し、\texttt{all\_data}という一つの大きなデータフレームを作成します
+    (総計958行)。
+  \end{itemize}
+\item
+  \textbf{3. 従属変数従属変数\texttt{Or\_DQS}を作成}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{DQSダミー列の作成}:
+    3つの注意チェック質問（\texttt{player.big5\_IMC},
+    \texttt{player.inboronIMC},
+    \texttt{player.crt\_DQS}）の結果に基づき、不誠実回答のダミー変数（\texttt{DQS\_1},
+    \texttt{DQS\_2}, \texttt{DQS\_3}）を作成（不真面目回答者なら1）
+  \item
+    \textbf{統合DQS変数の作成}:
+    3つのDQSダミーのいずれか一つでも1（不真面目回答）の場合に1となる、主要な従属変数\texttt{Or\_DQS}を作成。\texttt{Or\_DQS}が1なら不真面目回答者と定義する。
+  \end{itemize}
+\item
+  \textbf{4. 分析用データの準ダミー変数（説明変数）を作成}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{不完全回答の除外}:
+    途中で回答を中断した参加者（最後の設問\texttt{player.crt\_rank}がNA）を除外
+    (除外後889行)。
+  \item
+    \textbf{ダミー変数の作成}:
+    回帰分析のため、\texttt{category}列を基に各実験条件（\texttt{gain\_emphasis},
+    \texttt{loss\_aversion}など）のダミー変数（0または1）を作成。
+  \end{itemize}
+\item
+  \textbf{5. 記述統計量の算出}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{不誠実回答の割合（}Or\_DQS`など）について、実験条件ごとの平均値や標準偏差をまとめた記述統計表を作成。
+  \item
+    データセット全体の記述統計量も合わせて算出します。
+  \end{itemize}
+\item
+  \textbf{6. 回帰分析の実行}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{モデル1 (共変量なし)}:
+    \texttt{Or\_DQS}を従属変数、各実験カテゴリのダミー変数を独立変数として、線形回帰分析（\texttt{lm}）を実行します（\texttt{basic}カテゴリを基準）
+  \item
+    \textbf{モデル2〜4 (共変量あり)}:
+    統制変数を段階的に投入したモデルを構築します。
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \textbf{モデル2}: モデル1 + 人口統計変数（性別、年齢）
+    \item
+      \textbf{モデル3}: モデル2 + 社会経済変数（学歴、居住地）
+    \item
+      \textbf{モデル4}: モデル3 + デバイス情報
+    \end{itemize}
+  \item
+    \textbf{モデル比較}:
+    \texttt{sjPlot::tab\_model}を使い、4つのモデルの回帰結果（係数、信頼区間、p値、AICなど）をまとめた比較表を出力。
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{pre\_commitment以外は負の効果（不真面目回答者の割合を下げる効果）があったが、p値は有意水準を満たさなかった。（5\%水準）}\label{pre_commitmentux4ee5ux5916ux306fux8ca0ux306eux52b9ux679cux4e0dux771fux9762ux76eeux56deux7b54ux8005ux306eux5272ux5408ux3092ux4e0bux3052ux308bux52b9ux679cux304cux3042ux3063ux305fux304cpux5024ux306fux6709ux610fux6c34ux6e96ux3092ux6e80ux305fux3055ux306aux304bux3063ux305f5ux6c34ux6e96}
+
+\subsection{\#\#\#
+損失回避フレーミングは4\%不真面目回答者を下げることが示されたがp=0.338で統計的に優位な水準ではなかった。using\_llmもほとんど効果がないことがtab\_modelの出力からわかる}\label{ux640dux5931ux56deux907fux30d5ux30ecux30fcux30dfux30f3ux30b0ux306f4ux4e0dux771fux9762ux76eeux56deux7b54ux8005ux3092ux4e0bux3052ux308bux3053ux3068ux304cux793aux3055ux308cux305fux304cp0.338ux3067ux7d71ux8a08ux7684ux306bux512aux4f4dux306aux6c34ux6e96ux3067ux306fux306aux304bux3063ux305fusing_llmux3082ux307bux3068ux3093ux3069ux52b9ux679cux304cux306aux3044ux3053ux3068ux304ctab_modelux306eux51faux529bux304bux3089ux308fux304bux308b}
+
+\end{document}
