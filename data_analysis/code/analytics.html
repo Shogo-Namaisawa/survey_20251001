@@ -11,7 +11,7 @@
 
 <meta name="author" content="Your Name" />
 
-<meta name="date" content="2025-11-26" />
+<meta name="date" content="2025-12-02" />
 
 <title>不真面目回答の効果検証</title>
 
@@ -672,7 +672,7 @@ display: none;
 
 <h1 class="title toc-ignore">不真面目回答の効果検証</h1>
 <h4 class="author">Your Name</h4>
-<h4 class="date">2025-11-26</h4>
+<h4 class="date">2025-12-02</h4>
 
 </div>
 
@@ -3809,13 +3809,10 @@ kable(intervention_dqs_test_results, caption = &quot;介入群×DQS指標の独�
 DQS_3）を持つ長い形式（long
 format）に変換し、被験者ごとのランダム切片を含むロジスティック混合モデルで解析します。介入効果は統制群を基準として評価します。</p>
 <pre class="r"><code># 追加パッケージ（インストールされていない場合は事前にインストールしてください）
-pacman::p_load(lme4, lmerTest, broom.mixed, sjPlot)</code></pre>
+pacman::p_load(lme4, lmerTest, broom.mixed, sjPlot, glmmTMB)</code></pre>
 <pre><code>## 
 ## The downloaded binary packages are in
-##  /var/folders/tr/d7tzdc7n0gs954btmv1gbhr80000gn/T//RtmpltlqtJ/downloaded_packages</code></pre>
-<pre><code>## 
-## The downloaded binary packages are in
-##  /var/folders/tr/d7tzdc7n0gs954btmv1gbhr80000gn/T//RtmpltlqtJ/downloaded_packages</code></pre>
+##  /var/folders/tr/d7tzdc7n0gs954btmv1gbhr80000gn/T//RtmpRmpU0v/downloaded_packages</code></pre>
 <pre class="r"><code># データの整形（long format）
 glmm_data &lt;- dummy_all_data %&gt;%
   select(participant.id_in_session, category, DQS_1, DQS_2, DQS_3) %&gt;%
@@ -3841,57 +3838,85 @@ print(table(glmm_data$category, glmm_data$DQS))</code></pre>
 ##   DQS_1 853  36
 ##   DQS_2 807  82
 ##   DQS_3 758 131</code></pre>
-<pre class="r"><code># モデル1: 介入群効果（ランダム切片：被験者）
-glmm1 &lt;- glmer(violation ~ category + (1 | participant.id_in_session),
-               data = glmm_data,
-               family = binomial(link = &quot;logit&quot;),
-               control = glmerControl(optimizer = &quot;bobyqa&quot;, optCtrl = list(maxfun = 2e5)))
+<pre class="r"><code>## モデル適合上の確認: データに極端な偏り（完全分離やカテゴリ内ゼロ）がないか確認します
+cat(&quot;\n=== 被験者ごとの違反数サマリ（最小・最大・中央値等） ===\n&quot;)</code></pre>
+<pre><code>## 
+## === 被験者ごとの違反数サマリ（最小・最大・中央値等） ===</code></pre>
+<pre class="r"><code>print(summary(as.integer(table(glmm_data$participant.id_in_session))))</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    3.00   12.00   15.00   13.68   15.00   15.00</code></pre>
+<pre class="r"><code>cat(&quot;\n=== 介入群×違反の頻度 ===\n&quot;)</code></pre>
+<pre><code>## 
+## === 介入群×違反の頻度 ===</code></pre>
+<pre class="r"><code>print(table(glmm_data$category, glmm_data$violation))</code></pre>
+<pre><code>##           
+##              0   1
+##   統制群   484  50
+##   利得強調 485  46
+##   損失回避 487  47
+##   事前申告 476  52
+##   LLM活用  486  54</code></pre>
+<pre class="r"><code># モデル1: まずは glmer を最適化オプションを変更して試行
+glmm1 &lt;- tryCatch(
+  glmer(violation ~ category + (1 | participant.id_in_session),
+        data = glmm_data,
+        family = binomial(link = &quot;logit&quot;),
+        control = glmerControl(optimizer = &quot;nloptwrap&quot;, calc.derivs = FALSE, optCtrl = list(maxfun = 2e5))),
+  warning = function(w) { w; invokeRestart(&quot;muffleWarning&quot;) },
+  error = function(e) e
+)
 
-summary(glmm1)</code></pre>
+if(inherits(glmm1, &quot;error&quot;)){
+  cat(&quot;glmer failed: switching to glmmTMB for more robust fitting.\n&quot;)
+  glmm1_tmb &lt;- glmmTMB(violation ~ category + (1 | participant.id_in_session),
+                       data = glmm_data,
+                       family = binomial())
+  print(summary(glmm1_tmb))
+  tidy_glmm1 &lt;- broom.mixed::tidy(glmm1_tmb, effects = &quot;fixed&quot;, conf.int = TRUE, exponentiate = TRUE)
+} else {
+  # glmer 成功（又は警告を抑えた）場合は結果を表示
+  print(summary(glmm1))
+  tidy_glmm1 &lt;- broom.mixed::tidy(glmm1, effects = &quot;fixed&quot;, conf.int = TRUE, conf.level = 0.95, exponentiate = TRUE)
+}</code></pre>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
 ## Formula: violation ~ category + (1 | participant.id_in_session)
 ##    Data: glmm_data
-## Control: glmerControl(optimizer = &quot;bobyqa&quot;, optCtrl = list(maxfun = 2e+05))
+## Control: 
+## glmerControl(optimizer = &quot;nloptwrap&quot;, calc.derivs = FALSE, optCtrl = list(maxfun = 2e+05))
 ## 
 ##       AIC       BIC    logLik -2*log(L)  df.resid 
-##    1660.9    1696.3    -824.5    1648.9      2661 
+##    1661.0    1696.3    -824.5    1649.0      2661 
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -0.4962 -0.3215 -0.2956 -0.2771  3.4802 
+## -0.4911 -0.3222 -0.2973 -0.2771  3.4710 
 ## 
 ## Random effects:
 ##  Groups                    Name        Variance Std.Dev.
-##  participant.id_in_session (Intercept) 0.2184   0.4673  
+##  participant.id_in_session (Intercept) 0.2176   0.4665  
 ## Number of obs: 2667, groups:  participant.id_in_session, 195
 ## 
 ## Fixed effects:
-##                   Estimate Std. Error  z value Pr(&gt;|z|)    
-## (Intercept)      -2.337697   0.001436 -1628.31   &lt;2e-16 ***
-## category利得強調 -0.105256   0.001435   -73.37   &lt;2e-16 ***
-## category損失回避 -0.096887   0.001435   -67.54   &lt;2e-16 ***
-## category事前申告  0.028467   0.001482    19.21   &lt;2e-16 ***
-## categoryLLM活用   0.051974   0.001482    35.08   &lt;2e-16 ***
+##                  Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)      -2.34270    0.15553 -15.062   &lt;2e-16 ***
+## category利得強調 -0.09516    0.21950  -0.434    0.665    
+## category損失回避 -0.08087    0.21804  -0.371    0.711    
+## category事前申告  0.01502    0.21446   0.070    0.944    
+## categoryLLM活用   0.06473    0.21128   0.306    0.759    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre><code>## 
 ## Correlation of Fixed Effects:</code></pre>
 <pre><code>##                 (Intr) ct利得強調 ct損失回避 ct事前申告
-## categry利得強調  0.000                                 
-## categry損失回避  0.000  0.000                          
-## categry事前申告  0.000  0.000      0.000               
-## catgryLLM活用    0.000  0.000      0.000     -0.250    
-## optimizer (bobyqa) convergence code: 0 (OK)
-## Model failed to converge with max|grad| = 0.0505593 (tol = 0.002, component 1)
-## Model is nearly unidentifiable: very large eigenvalue
-##  - Rescale variables?</code></pre>
-<pre class="r"><code># オッズ比と95%信頼区間（指数化）
-tidy_glmm1 &lt;- broom.mixed::tidy(glmm1, effects = &quot;fixed&quot;, conf.int = TRUE, conf.level = 0.95, exponentiate = TRUE)
+## categry利得強調 -0.675                                 
+## categry損失回避 -0.680  0.482                          
+## categry事前申告 -0.691  0.490      0.494               
+## catgryLLM活用   -0.701  0.497      0.501      0.509</code></pre>
+<pre class="r"><code># 表示: tidy のデフォルト出力をそのまま表示
 tidy_glmm1 %&gt;%
   select(term, estimate, conf.low, conf.high, p.value) %&gt;%
-  mutate(across(c(estimate, conf.low, conf.high), ~round(.x, 3))) %&gt;%
   kable(col.names = c(&quot;項目&quot;, &quot;オッズ比&quot;, &quot;95%下限&quot;, &quot;95%上限&quot;, &quot;p値&quot;), caption = &quot;GLMM: 介入群のオッズ比 (参照: 統制群)&quot;)</code></pre>
 <table>
 <caption>GLMM: 介入群のオッズ比 (参照: 統制群)</caption>
@@ -3907,61 +3932,77 @@ tidy_glmm1 %&gt;%
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">0.097</td>
-<td align="right">0.096</td>
-<td align="right">0.097</td>
-<td align="right">0</td>
+<td align="right">0.0960680</td>
+<td align="right">0.0708255</td>
+<td align="right">0.130307</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">category利得強調</td>
-<td align="right">0.900</td>
-<td align="right">0.898</td>
-<td align="right">0.903</td>
-<td align="right">0</td>
+<td align="right">0.9092247</td>
+<td align="right">0.5913347</td>
+<td align="right">1.398006</td>
+<td align="right">0.6646180</td>
 </tr>
 <tr class="odd">
 <td align="left">category損失回避</td>
-<td align="right">0.908</td>
-<td align="right">0.905</td>
-<td align="right">0.910</td>
-<td align="right">0</td>
+<td align="right">0.9223141</td>
+<td align="right">0.6015697</td>
+<td align="right">1.414073</td>
+<td align="right">0.7107130</td>
 </tr>
 <tr class="even">
 <td align="left">category事前申告</td>
-<td align="right">1.029</td>
-<td align="right">1.026</td>
-<td align="right">1.032</td>
-<td align="right">0</td>
+<td align="right">1.0151341</td>
+<td align="right">0.6667681</td>
+<td align="right">1.545511</td>
+<td align="right">0.9441619</td>
 </tr>
 <tr class="odd">
 <td align="left">categoryLLM活用</td>
-<td align="right">1.053</td>
-<td align="right">1.050</td>
-<td align="right">1.056</td>
-<td align="right">0</td>
+<td align="right">1.0668685</td>
+<td align="right">0.7051249</td>
+<td align="right">1.614194</td>
+<td align="right">0.7593344</td>
 </tr>
 </tbody>
 </table>
 <pre class="r"><code># モデル2: DQS指標との交互作用を含めたモデル（介入群ごとにDQSで効果が異なるか）
-glmm2 &lt;- glmer(violation ~ category * DQS + (1 | participant.id_in_session),
-               data = glmm_data,
-               family = binomial(link = &quot;logit&quot;),
-               control = glmerControl(optimizer = &quot;bobyqa&quot;, optCtrl = list(maxfun = 2e5)))
+# モデル2: 交互作用モデル。glmer を試し、失敗したら glmmTMB にフォールバック
+glmm2 &lt;- tryCatch(
+  glmer(violation ~ category * DQS + (1 | participant.id_in_session),
+        data = glmm_data,
+        family = binomial(link = &quot;logit&quot;),
+        control = glmerControl(optimizer = &quot;nloptwrap&quot;, calc.derivs = FALSE, optCtrl = list(maxfun = 2e5))),
+  warning = function(w) { w; invokeRestart(&quot;muffleWarning&quot;) },
+  error = function(e) e
+)
 
-summary(glmm2)</code></pre>
+if(inherits(glmm2, &quot;error&quot;)){
+  cat(&quot;glmer (interaction) failed: switching to glmmTMB.\n&quot;)
+  glmm2_tmb &lt;- glmmTMB(violation ~ category * DQS + (1 | participant.id_in_session),
+                       data = glmm_data,
+                       family = binomial())
+  print(summary(glmm2_tmb))
+  tidy_glmm2 &lt;- broom.mixed::tidy(glmm2_tmb, effects = &quot;fixed&quot;, conf.int = TRUE, exponentiate = TRUE)
+} else {
+  print(summary(glmm2))
+  tidy_glmm2 &lt;- broom.mixed::tidy(glmm2, effects = &quot;fixed&quot;, conf.int = TRUE, exponentiate = TRUE)
+}</code></pre>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
 ## Formula: violation ~ category * DQS + (1 | participant.id_in_session)
 ##    Data: glmm_data
-## Control: glmerControl(optimizer = &quot;bobyqa&quot;, optCtrl = list(maxfun = 2e+05))
+## Control: 
+## glmerControl(optimizer = &quot;nloptwrap&quot;, calc.derivs = FALSE, optCtrl = list(maxfun = 2e+05))
 ## 
 ##       AIC       BIC    logLik -2*log(L)  df.resid 
 ##    1613.0    1707.3    -790.5    1581.0      2651 
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -0.7048 -0.3555 -0.2761 -0.1896  6.3744 
+## -0.7048 -0.3550 -0.2762 -0.1897  6.3733 
 ## 
 ## Random effects:
 ##  Groups                    Name        Variance Std.Dev.
@@ -3969,29 +4010,27 @@ summary(glmm2)</code></pre>
 ## Number of obs: 2667, groups:  participant.id_in_session, 195
 ## 
 ## Fixed effects:
-##                           Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)               -2.92881    0.33285  -8.799  &lt; 2e-16 ***
-## category利得強調          -0.71959    0.56013  -1.285  0.19890    
-## category損失回避          -0.24461    0.48898  -0.500  0.61691    
-## category事前申告          -0.53495    0.52983  -1.010  0.31265    
-## categoryLLM活用           -0.39138    0.50672  -0.772  0.43989    
-## DQSDQS_2                   0.36600    0.43090   0.849  0.39566    
-## DQSDQS_3                   1.07746    0.39159   2.752  0.00593 ** 
-## category利得強調:DQSDQS_2  0.94630    0.67711   1.398  0.16225    
-## category損失回避:DQSDQS_2  0.45454    0.61958   0.734  0.46317    
-## category事前申告:DQSDQS_2  0.75766    0.65240   1.161  0.24550    
-## categoryLLM活用:DQSDQS_2   0.59419    0.63358   0.938  0.34833    
-## category利得強調:DQSDQS_3  0.63400    0.63970   0.991  0.32165    
-## category損失回避:DQSDQS_3  0.03938    0.58162   0.068  0.94601    
-## category事前申告:DQSDQS_3  0.67567    0.60770   1.112  0.26620    
-## categoryLLM活用:DQSDQS_3   0.55145    0.58665   0.940  0.34722    
+##                            Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)               -2.940154   0.340009  -8.647  &lt; 2e-16 ***
+## category利得強調          -0.707907   0.579030  -1.223  0.22149    
+## category損失回避          -0.221114   0.502729  -0.440  0.66006    
+## category事前申告          -0.522368   0.546965  -0.955  0.33956    
+## categoryLLM活用           -0.379562   0.522909  -0.726  0.46792    
+## DQSDQS_2                   0.377202   0.443208   0.851  0.39473    
+## DQSDQS_3                   1.093605   0.401394   2.725  0.00644 ** 
+## category利得強調:DQSDQS_2  0.934632   0.697193   1.341  0.18006    
+## category損失回避:DQSDQS_2  0.431436   0.635232   0.679  0.49703    
+## category事前申告:DQSDQS_2  0.745175   0.670827   1.111  0.26664    
+## categoryLLM活用:DQSDQS_2   0.582604   0.651286   0.895  0.37103    
+## category利得強調:DQSDQS_3  0.617631   0.657646   0.939  0.34765    
+## category損失回避:DQSDQS_3  0.005791   0.595141   0.010  0.99224    
+## category事前申告:DQSDQS_3  0.658129   0.623636   1.055  0.29128    
+## categoryLLM活用:DQSDQS_3   0.534673   0.601554   0.889  0.37410    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>tidy_glmm2 &lt;- broom.mixed::tidy(glmm2, effects = &quot;fixed&quot;, conf.int = TRUE, exponentiate = TRUE)
-tidy_glmm2 %&gt;%
+<pre class="r"><code>tidy_glmm2 %&gt;%
   filter(str_detect(term, &quot;category&quot;)) %&gt;%
   select(term, estimate, conf.low, conf.high, p.value) %&gt;%
-  mutate(across(c(estimate, conf.low, conf.high), ~round(.x, 3))) %&gt;%
   kable(col.names = c(&quot;項目&quot;, &quot;オッズ比&quot;, &quot;95%下限&quot;, &quot;95%上限&quot;, &quot;p値&quot;), caption = &quot;GLMM（交互作用あり）：介入群×DQS のオッズ比&quot;)</code></pre>
 <table>
 <caption>GLMM（交互作用あり）：介入群×DQS のオッズ比</caption>
@@ -4007,87 +4046,87 @@ tidy_glmm2 %&gt;%
 <tbody>
 <tr class="odd">
 <td align="left">category利得強調</td>
-<td align="right">0.487</td>
-<td align="right">0.162</td>
-<td align="right">1.460</td>
-<td align="right">0.1988989</td>
+<td align="right">0.4926741</td>
+<td align="right">0.1583757</td>
+<td align="right">1.532607</td>
+<td align="right">0.2214903</td>
 </tr>
 <tr class="even">
 <td align="left">category損失回避</td>
-<td align="right">0.783</td>
-<td align="right">0.300</td>
-<td align="right">2.042</td>
-<td align="right">0.6169107</td>
+<td align="right">0.8016253</td>
+<td align="right">0.2992596</td>
+<td align="right">2.147310</td>
+<td align="right">0.6600619</td>
 </tr>
 <tr class="odd">
 <td align="left">category事前申告</td>
-<td align="right">0.586</td>
-<td align="right">0.207</td>
-<td align="right">1.654</td>
-<td align="right">0.3126530</td>
+<td align="right">0.5931146</td>
+<td align="right">0.2030303</td>
+<td align="right">1.732672</td>
+<td align="right">0.3395632</td>
 </tr>
 <tr class="even">
 <td align="left">categoryLLM活用</td>
-<td align="right">0.676</td>
-<td align="right">0.250</td>
-<td align="right">1.825</td>
-<td align="right">0.4398941</td>
+<td align="right">0.6841613</td>
+<td align="right">0.2455035</td>
+<td align="right">1.906599</td>
+<td align="right">0.4679213</td>
 </tr>
 <tr class="odd">
 <td align="left">category利得強調:DQSDQS_2</td>
-<td align="right">2.576</td>
-<td align="right">0.683</td>
-<td align="right">9.712</td>
-<td align="right">0.1622460</td>
+<td align="right">2.5462751</td>
+<td align="right">0.6493125</td>
+<td align="right">9.985203</td>
+<td align="right">0.1800620</td>
 </tr>
 <tr class="even">
 <td align="left">category損失回避:DQSDQS_2</td>
-<td align="right">1.575</td>
-<td align="right">0.468</td>
-<td align="right">5.306</td>
-<td align="right">0.4631740</td>
+<td align="right">1.5394661</td>
+<td align="right">0.4432610</td>
+<td align="right">5.346637</td>
+<td align="right">0.4970251</td>
 </tr>
 <tr class="odd">
 <td align="left">category事前申告:DQSDQS_2</td>
-<td align="right">2.133</td>
-<td align="right">0.594</td>
-<td align="right">7.662</td>
-<td align="right">0.2454968</td>
+<td align="right">2.1068103</td>
+<td align="right">0.5657390</td>
+<td align="right">7.845755</td>
+<td align="right">0.2666416</td>
 </tr>
 <tr class="even">
 <td align="left">categoryLLM活用:DQSDQS_2</td>
-<td align="right">1.812</td>
-<td align="right">0.523</td>
-<td align="right">6.271</td>
-<td align="right">0.3483328</td>
+<td align="right">1.7906960</td>
+<td align="right">0.4996270</td>
+<td align="right">6.417972</td>
+<td align="right">0.3710309</td>
 </tr>
 <tr class="odd">
 <td align="left">category利得強調:DQSDQS_3</td>
-<td align="right">1.885</td>
-<td align="right">0.538</td>
-<td align="right">6.605</td>
-<td align="right">0.3216471</td>
+<td align="right">1.8545294</td>
+<td align="right">0.5110273</td>
+<td align="right">6.730128</td>
+<td align="right">0.3476519</td>
 </tr>
 <tr class="even">
 <td align="left">category損失回避:DQSDQS_3</td>
-<td align="right">1.040</td>
-<td align="right">0.333</td>
-<td align="right">3.252</td>
-<td align="right">0.9460137</td>
+<td align="right">1.0058079</td>
+<td align="right">0.3132779</td>
+<td align="right">3.229240</td>
+<td align="right">0.9922362</td>
 </tr>
 <tr class="odd">
 <td align="left">category事前申告:DQSDQS_3</td>
-<td align="right">1.965</td>
-<td align="right">0.597</td>
-<td align="right">6.467</td>
-<td align="right">0.2662020</td>
+<td align="right">1.9311758</td>
+<td align="right">0.5688289</td>
+<td align="right">6.556347</td>
+<td align="right">0.2912840</td>
 </tr>
 <tr class="even">
 <td align="left">categoryLLM活用:DQSDQS_3</td>
-<td align="right">1.736</td>
-<td align="right">0.550</td>
-<td align="right">5.481</td>
-<td align="right">0.3472196</td>
+<td align="right">1.7068907</td>
+<td align="right">0.5250029</td>
+<td align="right">5.549447</td>
+<td align="right">0.3740999</td>
 </tr>
 </tbody>
 </table>
@@ -4105,13 +4144,13 @@ data.frame(model = c(&quot;glmm1&quot;, &quot;glmm2&quot;), AIC = c(AIC(glmm1), 
 <tbody>
 <tr class="odd">
 <td align="left">glmm1</td>
-<td align="right">1660.945</td>
-<td align="right">1696.277</td>
+<td align="right">1660.963</td>
+<td align="right">1696.295</td>
 </tr>
 <tr class="even">
 <td align="left">glmm2</td>
-<td align="right">1613.032</td>
-<td align="right">1707.251</td>
+<td align="right">1613.035</td>
+<td align="right">1707.254</td>
 </tr>
 </tbody>
 </table>

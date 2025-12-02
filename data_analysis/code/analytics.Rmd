@@ -946,7 +946,7 @@ kable(intervention_dqs_test_results, caption = "介入群×DQS指標の独立性
 
 ```{r glmm-long-format, message=FALSE, warning=FALSE}
 # 追加パッケージ（インストールされていない場合は事前にインストールしてください）
-pacman::p_load(lme4, lmerTest, broom.mixed, sjPlot)
+pacman::p_load(lme4, lmerTest, broom.mixed, sjPlot, glmmTMB)
 
 # データの整形（long format）
 glmm_data <- dummy_all_data %>%
@@ -962,34 +962,66 @@ glmm_data <- dummy_all_data %>%
 print(table(glmm_data$category, glmm_data$DQS))
 print(table(glmm_data$DQS, glmm_data$violation))
 
-# モデル1: 介入群効果（ランダム切片：被験者）
-glmm1 <- glmer(violation ~ category + (1 | participant.id_in_session),
-               data = glmm_data,
-               family = binomial(link = "logit"),
-               control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e5)))
+## モデル適合上の確認: データに極端な偏り（完全分離やカテゴリ内ゼロ）がないか確認します
+cat("\n=== 被験者ごとの違反数サマリ（最小・最大・中央値等） ===\n")
+print(summary(as.integer(table(glmm_data$participant.id_in_session))))
+cat("\n=== 介入群×違反の頻度 ===\n")
+print(table(glmm_data$category, glmm_data$violation))
 
-summary(glmm1)
+# モデル1: まずは glmer を最適化オプションを変更して試行
+glmm1 <- tryCatch(
+  glmer(violation ~ category + (1 | participant.id_in_session),
+        data = glmm_data,
+        family = binomial(link = "logit"),
+        control = glmerControl(optimizer = "nloptwrap", calc.derivs = FALSE, optCtrl = list(maxfun = 2e5))),
+  warning = function(w) { w; invokeRestart("muffleWarning") },
+  error = function(e) e
+)
 
-# オッズ比と95%信頼区間（指数化）
-tidy_glmm1 <- broom.mixed::tidy(glmm1, effects = "fixed", conf.int = TRUE, conf.level = 0.95, exponentiate = TRUE)
+if(inherits(glmm1, "error")){
+  cat("glmer failed: switching to glmmTMB for more robust fitting.\n")
+  glmm1_tmb <- glmmTMB(violation ~ category + (1 | participant.id_in_session),
+                       data = glmm_data,
+                       family = binomial())
+  print(summary(glmm1_tmb))
+  tidy_glmm1 <- broom.mixed::tidy(glmm1_tmb, effects = "fixed", conf.int = TRUE, exponentiate = TRUE)
+} else {
+  # glmer 成功（又は警告を抑えた）場合は結果を表示
+  print(summary(glmm1))
+  tidy_glmm1 <- broom.mixed::tidy(glmm1, effects = "fixed", conf.int = TRUE, conf.level = 0.95, exponentiate = TRUE)
+}
+
+# 表示: tidy のデフォルト出力をそのまま表示
 tidy_glmm1 %>%
   select(term, estimate, conf.low, conf.high, p.value) %>%
-  mutate(across(c(estimate, conf.low, conf.high), ~round(.x, 3))) %>%
   kable(col.names = c("項目", "オッズ比", "95%下限", "95%上限", "p値"), caption = "GLMM: 介入群のオッズ比 (参照: 統制群)")
 
 # モデル2: DQS指標との交互作用を含めたモデル（介入群ごとにDQSで効果が異なるか）
-glmm2 <- glmer(violation ~ category * DQS + (1 | participant.id_in_session),
-               data = glmm_data,
-               family = binomial(link = "logit"),
-               control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e5)))
+# モデル2: 交互作用モデル。glmer を試し、失敗したら glmmTMB にフォールバック
+glmm2 <- tryCatch(
+  glmer(violation ~ category * DQS + (1 | participant.id_in_session),
+        data = glmm_data,
+        family = binomial(link = "logit"),
+        control = glmerControl(optimizer = "nloptwrap", calc.derivs = FALSE, optCtrl = list(maxfun = 2e5))),
+  warning = function(w) { w; invokeRestart("muffleWarning") },
+  error = function(e) e
+)
 
-summary(glmm2)
+if(inherits(glmm2, "error")){
+  cat("glmer (interaction) failed: switching to glmmTMB.\n")
+  glmm2_tmb <- glmmTMB(violation ~ category * DQS + (1 | participant.id_in_session),
+                       data = glmm_data,
+                       family = binomial())
+  print(summary(glmm2_tmb))
+  tidy_glmm2 <- broom.mixed::tidy(glmm2_tmb, effects = "fixed", conf.int = TRUE, exponentiate = TRUE)
+} else {
+  print(summary(glmm2))
+  tidy_glmm2 <- broom.mixed::tidy(glmm2, effects = "fixed", conf.int = TRUE, exponentiate = TRUE)
+}
 
-tidy_glmm2 <- broom.mixed::tidy(glmm2, effects = "fixed", conf.int = TRUE, exponentiate = TRUE)
 tidy_glmm2 %>%
   filter(str_detect(term, "category")) %>%
   select(term, estimate, conf.low, conf.high, p.value) %>%
-  mutate(across(c(estimate, conf.low, conf.high), ~round(.x, 3))) %>%
   kable(col.names = c("項目", "オッズ比", "95%下限", "95%上限", "p値"), caption = "GLMM（交互作用あり）：介入群×DQS のオッズ比")
 
 # モデル比較（簡易）
